@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanuja K · Cloud Portfolio</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #0b1423; /* deep dark blue base */
+      color: #f0f4fa;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== PARTICLES / GRADIENT BACKGROUND ===== */
+    #gradient-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 30% 40%, #0a1a3a 0%, #03070f 90%);
+      z-index: -2;
+    }
+    #gradient-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(125deg, rgba(10, 26, 58, 0.6) 0%, rgba(140, 20, 20, 0.2) 70%);
+      animation: slowMove 22s infinite alternate ease-in-out;
+      z-index: -1;
+    }
+    @keyframes slowMove {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+      100% { transform: scale(1.2) translate(2%, 3%); opacity: 0.9; }
+    }
+
+    /* ===== STICKY BLUR NAVBAR ===== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(2, 12, 27, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(200, 40, 40, 0.3);
+      z-index: 100;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      animation: slideDown 0.5s ease;
+    }
+    @keyframes slideDown {
+      0% { transform: translateY(-100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 700;
+      background: linear-gradient(130deg, #ff4b4b, #1e3a8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #eaeef5;
+      font-weight: 500;
+      transition: 0.3s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+    .nav-links a:hover {
+      color: #ff5e5e;
+      border-bottom-color: #e63946;
+    }
+
+    /* ===== CONTAINER & UTILITY ===== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    section {
+      padding: 4rem 0 5rem;
+    }
+
+    /* ===== REVEAL ANIMATION (SCROLL) ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.7s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== BUTTONS & RIPPLE ===== */
+    .btn {
+      display: inline-block;
+      background: linear-gradient(145deg, #1f3a6b, #0b1b3a);
+      border: 1px solid #b22234;
+      color: white;
+      padding: 12px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 18px rgba(150, 20, 20, 0.3);
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover {
+      background: linear-gradient(145deg, #932525, #4a0f0f);
+      border-color: #ff8a8a;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 24px rgba(200, 30, 30, 0.5);
+    }
+    .btn.ripple::after {
+      content: '';
+      position: absolute;
+      width: 100%; height: 100%;
+      top: 0; left: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 10%);
+      transform: scale(10) translate(-50%, -50%);
+      opacity: 0;
+      transition: transform 0.4s, opacity 0.6s;
+    }
+    .btn.ripple:active::after {
+      transform: scale(0) translate(0,0);
+      opacity: 0.4;
+      transition: 0s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+    }
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3rem;
+    }
+    .hero-content {
+      flex: 1 1 350px;
+    }
+    .hero-content h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .hero-content .name-highlight {
+      background: linear-gradient(130deg, #ff5252, #1e3a8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    .typed-container {
+      font-size: 1.8rem;
+      margin: 20px 0 20px;
+      min-height: 4rem;
+    }
+    #typed-text {
+      color: #ffbaba;
+      border-right: 3px solid #e63946;
+      padding-right: 8px;
+      font-weight: 500;
+    }
+    .hero-image {
+      flex: 0 0 280px;
+      text-align: center;
+    }
+    .hero-image img {
+      width: 260px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+      box-shadow: 0 30px 30px -10px rgba(180, 30, 30, 0.5);
+      border: 3px solid #962020;
+      transition: transform 0.4s;
+    }
+    .hero-image img:hover {
+      transform: scale(1.02) rotate(1deg);
+    }
+
+    /* ===== ABOUT ===== */
+    .about-card {
+      background: rgba(10, 25, 47, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 2.5rem;
+      border: 1px solid rgba(180, 40, 40, 0.4);
+      box-shadow: 0 20px 30px -8px #0a0f1f;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 1.5rem;
+    }
+    .skill-tag {
+      background: linear-gradient(130deg, #1d2f50, #271212);
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-left: 3px solid #c73434;
+      transition: 0.2s;
+    }
+    .skill-tag:hover {
+      transform: scale(1.05) translateY(-3px);
+      background: #1f3d7a;
+      border-left-color: white;
+    }
+
+    /* ===== CERTIFICATES (GRID + MODAL) ===== */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .cert-card {
+      background: rgba(8, 22, 48, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 24px;
+      padding: 1.2rem 1.2rem 1.6rem;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+      transition: all 0.3s;
+      border: 1px solid #4f2b2b;
+      cursor: pointer;
+    }
+    .cert-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 30px #320e0e;
+      border-color: #c73737;
+    }
+    .cert-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 16px;
+      transition: transform 0.4s;
+    }
+    .cert-card:hover img {
+      transform: scale(1.03);
+    }
+    .cert-card h3 {
+      margin: 1rem 0 0.2rem;
+      font-size: 1.2rem;
+      color: #ffd6d6;
+    }
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(1, 5, 15, 0.95);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      max-width: 80vw;
+      max-height: 85vh;
+      border-radius: 20px;
+      border: 3px solid #a13333;
+      box-shadow: 0 0 50px #b30000;
+      animation: zoomFade 0.25s;
+    }
+    @keyframes zoomFade {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .close-modal {
+      position: absolute;
+      top: 30px; right: 45px;
+      color: #ff7b7b;
+      font-size: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .close-modal:hover {
+      color: red;
+      transform: scale(1.2);
+    }
+
+    /* ===== FEEDBACK CARDS ===== */
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .feedback-card {
+      background: rgba(20, 30, 55, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 30px;
+      padding: 2rem 1.5rem;
+      border-left: 6px solid #c53838;
+      transition: all 0.4s;
+      opacity: 0;
+      transform: translateX(40px);
+      animation: slideFade 0.6s forwards;
+      box-shadow: 0 20px 25px -8px black;
+    }
+    .feedback-card:nth-child(2) { animation-delay: 0.2s; }
+    .feedback-card:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes slideFade {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .feedback-card:hover {
+      transform: scale(1.02) translateY(-8px);
+      background: rgba(40, 25, 45, 0.8);
+      border-left-color: #ff7b7b;
+    }
+    .feedback-card i {
+      color: #ff6565;
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+    .feedback-card h4 {
+      color: #ffaeae;
+    }
+
+    /* ===== CONTACT FORM ===== */
+    .contact-form {
+      max-width: 680px;
+      margin: 2rem auto 0;
+      background: rgba(8, 16, 36, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 2.8rem 2rem;
+      border-radius: 40px;
+      border: 1px solid #a03a3a;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.7);
+    }
+    .input-group {
+      margin-bottom: 1.8rem;
+      position: relative;
+    }
+    .input-group input, .input-group textarea {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(0, 3, 15, 0.6);
+      border: 1px solid #6f2c2c;
+      border-radius: 50px;
+      font-size: 1rem;
+      color: white;
+      transition: 0.3s;
+    }
+    .input-group textarea {
+      border-radius: 30px;
+      resize: vertical;
+    }
+    .input-group input:focus, .input-group textarea:focus {
+      outline: none;
+      border-color: #e63946;
+      box-shadow: 0 0 0 4px rgba(220, 50, 50, 0.3);
+    }
+    .error-msg {
+      color: #ff8989;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      padding-left: 1rem;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.2rem;
+      border: none;
+    }
+
+    /* ===== SOCIAL ICONS ===== */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 2.2rem;
+      margin: 3rem 0 1rem;
+    }
+    .social-icon {
+      background: #111c31;
+      width: 55px; height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      color: #ff9494;
+      border: 1px solid #b33030;
+      transition: 0.3s;
+      animation: float 4s infinite ease-in-out;
+    }
+    .social-icon:hover {
+      background: #862020;
+      color: white;
+      transform: translateY(-8px) scale(1.1);
+      border-color: white;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      .navbar {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .hero h1 { font-size: 2.6rem; }
+      .hero-grid { justify-content: center; text-align: center; }
+      .typed-container { font-size: 1.4rem; }
+    }
+    @media (max-width: 480px) {
+      .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="gradient-bg"></div>
+
+  <!-- STICKY NAVBAR (blur, animated) -->
+  <nav class="navbar">
+    <div class="logo">TANuja</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#feedback">Feedback</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO SECTION with typing & photo -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <h1>I'm <span class="name-highlight">Tanuja K</span></h1>
+          <div class="typed-container">
+            <span id="typed-text"></span>
+          </div>
+          <p style="margin-bottom: 2rem; color: #ccd9f0;">BCA Cloud Computing · Kristu Jayanti University</p>
+          <a href="#contact" class="btn ripple" id="contactBtn">Contact Me <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></a>
+        </div>
+        <div class="hero-image reveal">
+          <!-- your photo near about me (place holder) -->
+          <img src="https://via.placeholder.com/400x400/1f2b4a/ff6b6b?text=Tanuja+K" alt="Tanuja K profile">
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT section + skills -->
+    <section id="about" class="container">
+      <div class="about-card reveal">
+        <h2 style="color: #ff7373; margin-bottom: 1rem;">☁️ About Me</h2>
+        <p style="font-size: 1.2rem;">I'm a passionate cloud computing student with hands-on experience in deploying scalable solutions. Eager to innovate with AWS, Azure, and automation. Quick learner with a drive for modern infra.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS (EC2, S3)</span>
+          <span class="skill-tag">Azure fundamentals</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Networking</span>
+          <span class="skill-tag">Terraform (basic)</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Kubernetes (baby)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATES section (grid + modal) -->
+    <section id="certificates" class="container">
+      <h2 style="font-size: 2.5rem; border-left: 8px solid #cf3f3f; padding-left: 1.5rem;">📜 Certificates</h2>
+      <div class="cert-grid" id="certGrid">
+        <!-- cards will be cloned from JS but we write static placeholder for clarity, also JS will populate dynamically -->
+      </div>
+    </section>
+
+    <!-- FEEDBACK section (cards) -->
+    <section id="feedback" class="container">
+      <h2 style="font-size: 2.5rem; border-left: 8px solid #cf3f3f; padding-left: 1.5rem;">⭐ Feedback</h2>
+      <div class="feedback-grid">
+        <div class="feedback-card">
+          <i class="fas fa-quote-right"></i>
+          <p>"Tanuja is incredibly organized and brings clarity to cloud architecture discussions."</p>
+          <h4>— Dr. A. Sharma, Professor</h4>
+        </div>
+        <div class="feedback-card">
+          <i class="fas fa-quote-right"></i>
+          <p>"Her ability to simplify complex networking concepts helped our study group."</p>
+          <h4>— Nikhil Raj, Batchmate</h4>
+        </div>
+        <div class="feedback-card">
+          <i class="fas fa-quote-right"></i>
+          <p>"One of the most dedicated cloud students I've mentored. Fast learner!"</p>
+          <h4>— Amazon recruiter (mock interview)</h4>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT section + validation -->
+    <section id="contact" class="container">
+      <h2 style="font-size: 2.5rem; border-left: 8px solid #cf3f3f; padding-left: 1.5rem;">✉️ Contact me</h2>
+      <div class="contact-form reveal">
+        <form id="contactForm">
+          <div class="input-group">
+            <input type="text" id="name" placeholder="Your Name" autocomplete="off">
+            <div class="error-msg" id="nameError"></div>
+          </div>
+          <div class="input-group">
+            <input type="email" id="email" placeholder="Email address">
+            <div class="error-msg" id="emailError"></div>
+          </div>
+          <div class="input-group">
+            <textarea id="message" rows="4" placeholder="Your message..."></textarea>
+            <div class="error-msg" id="msgError"></div>
+          </div>
+          <button type="submit" class="btn submit-btn ripple" id="submitFormBtn">Send message <i class="fas fa-rocket"></i></button>
+        </form>
+        <div style="text-align: center; margin-top: 1rem;" id="formSuccess"></div>
+      </div>
+    </section>
+
+    <!-- animated social icons -->
+    <div class="social-links">
+      <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+    </div>
+  </main>
+
+  <!-- MODAL for certificate popup -->
+  <div id="certModal" class="modal">
+    <span class="close-modal">&times;</span>
+    <img class="modal-content" id="modalImage" alt="certificate large">
+  </div>
+
+  <script>
+    (function() {
+      // ----- TYPING EFFECT -----
+      const typedSpan = document.getElementById('typed-text');
+      const words = ['BCA Cloud Computing student', 'cloud enthusiast', 'AWS learner', 'tech explorer'];
+      let wordIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function typeEffect() {
+        const currentWord = words[wordIndex];
+        if (isDeleting) {
+          typedSpan.textContent = currentWord.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typedSpan.textContent = currentWord.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        if (!isDeleting && charIndex === currentWord.length) {
+          isDeleting = true;
+          setTimeout(typeEffect, 1500);
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          setTimeout(typeEffect, 300);
+        } else {
+          setTimeout(typeEffect, isDeleting ? 60 : 100);
+        }
+      }
+      typeEffect();
+
+      // ----- CERTIFICATE DATA (IMAGES - placeholder, but you can replace with actual certs) -----
+      const certificates = [
+        { title: 'AWS Cloud Practitioner', img: 'https://via.placeholder.com/600x400/1f3380/ffaaaa?text=AWS+Cert' },
+        { title: 'Microsoft Azure Fundamentals', img: 'https://via.placeholder.com/600x400/331f60/ffbbbb?text=Azure+Fundamentals' },
+        { title: 'Google Cloud Digital Leader', img: 'https://via.placeholder.com/600x400/401f40/ffccdd?text=Cloud+Digital+Leader' },
+        { title: 'Docker Essential', img: 'https://via.placeholder.com/600x400/1f3a4a/ffaabb?text=Docker+Cert' },
+        { title: 'Linux Administration', img: 'https://via.placeholder.com/600x400/2a1f50/ffb3b3?text=Linux+Cert' },
+        { title: 'Cloud Security Basics', img: 'https://via.placeholder.com/600x400/521f1f/ffcdcd?text=Security+Cert' }
+      ];
+
+      const certGrid = document.getElementById('certGrid');
+      function loadCertificates() {
+        certGrid.innerHTML = '';
+        certificates.forEach((cert, index) => {
+          const card = document.createElement('div');
+          card.className = 'cert-card reveal';
+          card.innerHTML = `
+            <img src="${cert.img}" alt="${cert.title}" data-index="${index}" style="cursor:pointer">
+            <h3>${cert.title}</h3>
+          `;
+          card.querySelector('img').addEventListener('click', function(e) {
+            openModal(e.target.src);
+          });
+          certGrid.appendChild(card);
+        });
+      }
+      loadCertificates();
+
+      // ----- MODAL FUNCTIONALITY -----
+      const modal = document.getElementById('certModal');
+      const modalImg = document.getElementById('modalImage');
+      const closeModal = document.querySelector('.close-modal');
+
+      function openModal(src) {
+        modal.style.display = 'flex';
+        modalImg.src = src;
+      }
+
+      closeModal.addEventListener('click', () => modal.style.display = 'none');
+      modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+      // ----- FORM VALIDATION (animated submit) -----
+      const contactForm = document.getElementById('contactForm');
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const msgInput = document.getElementById('message');
+      const nameErr = document.getElementById('nameError');
+      const emailErr = document.getElementById('emailError');
+      const msgErr = document.getElementById('msgError');
+      const formSuccess = document.getElementById('formSuccess');
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valid = true;
+
+        nameErr.textContent = '';
+        emailErr.textContent = '';
+        msgErr.textContent = '';
+        formSuccess.innerHTML = '';
+
+        if (nameInput.value.trim() === '') {
+          nameErr.textContent = 'Name is required';
+          valid = false;
+        }
+        const email = emailInput.value.trim();
+        if (email === '') {
+          emailErr.textContent = 'Email required';
+          valid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          emailErr.textContent = 'Invalid email format';
+          valid = false;
+        }
+        if (msgInput.value.trim() === '') {
+          msgErr.textContent = 'Message cannot be empty';
+          valid = false;
+        }
+
+        if (valid) {
+          formSuccess.innerHTML = '<span style="color:#a5f0b5;">✅ Message sent (demo)</span>';
+          contactForm.reset();
+        } else {
+          formSuccess.innerHTML = '<span style="color:#ff9494;">⚠️ fix errors</span>';
+        }
+      });
+
+      // ----- SCROLL REVEAL (Intersection Observer) -----
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      reveals.forEach(el => observer.observe(el));
+
+      // ----- ripple effect on all .ripple buttons (basic) -----
+      document.querySelectorAll('.ripple').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+          const x = e.clientX - e.target.getBoundingClientRect().left;
+          const y = e.clientY - e.target.getBoundingClientRect().top;
+          const ripple = document.createElement('span');
+          ripple.style.position = 'absolute';
+          ripple.style.width = '0'; ripple.style.height = '0';
+          // just to satisfy ripple class effect, we let css pseudo handle. we use pseudo :active.
+          // but we ensure class exists.
+        });
+      });
+
+      // Add smooth scrolling for navbar links
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+      document.getElementById('contactBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // make sure images from placeholder exist, but it's fine.
+    })();
+  </script>
+
+  <!-- ensure all reveal become visible if observer fails, also extra mobile fix -->
+  <noscript>Please enable JavaScript</noscript>
+</body>
+</html>
